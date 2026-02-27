@@ -13,20 +13,31 @@ function clearPreview(message = 'Selecione um relatório para visualizar a prév
   previewHint.classList.remove('hidden');
 }
 
+function showMissingPreviewHint() {
+  previewImage.src = '';
+  previewImage.classList.add('hidden');
+  previewHint.textContent = 'Sem imagem de prévia. Adicione um arquivo com o mesmo nome do .pbix (ex.: Relatorio.png).';
+  previewHint.classList.remove('hidden');
+}
+
 async function loadPreview(report) {
   previewLabel.textContent = report.displayName;
   const result = await window.viewerAPI.getReportPreview(report.fullPath);
 
-  if (result?.previewPath) {
-    previewImage.src = `file://${result.previewPath.replace(/\\/g, '/')}`;
+  if (result?.previewUrl) {
+    previewImage.onerror = () => {
+      previewHint.textContent = 'Não foi possível carregar a imagem de prévia (arquivo inválido ou inacessível).';
+      previewImage.classList.add('hidden');
+      previewHint.classList.remove('hidden');
+    };
+
+    previewImage.src = result.previewUrl;
     previewImage.classList.remove('hidden');
     previewHint.classList.add('hidden');
     return;
   }
 
-  previewImage.src = '';
-  previewImage.classList.add('hidden');
-  previewHint.classList.remove('hidden');
+  showMissingPreviewHint();
 }
 
 function renderReports(reports) {
@@ -47,7 +58,6 @@ function renderReports(reports) {
 
     const title = document.createElement('span');
     title.textContent = report.displayName;
-
     title.addEventListener('click', () => loadPreview(report));
 
     const openBtn = document.createElement('button');

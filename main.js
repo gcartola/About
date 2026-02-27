@@ -1,5 +1,6 @@
 const path = require('node:path');
 const { spawn } = require('node:child_process');
+const { pathToFileURL } = require('node:url');
 const { app, BrowserWindow, dialog, ipcMain, screen } = require('electron');
 const { createConfigService } = require('./services/configService');
 const { createLogService } = require('./services/logService');
@@ -145,9 +146,13 @@ function registerIpcHandlers() {
     return { ok: true };
   });
 
-  ipcMain.handle('report:preview', (_event, reportPath) => ({
-    previewPath: getReportPreviewPath(reportPath)
-  }));
+  ipcMain.handle('report:preview', (_event, reportPath) => {
+    const previewPath = getReportPreviewPath(reportPath);
+    return {
+      previewPath,
+      previewUrl: previewPath ? pathToFileURL(previewPath).href : null
+    };
+  });
 
   ipcMain.on('viewer:close', (event) => {
     const win = BrowserWindow.fromWebContents(event.sender);
