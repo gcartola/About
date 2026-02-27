@@ -7,6 +7,7 @@ Aplicação desktop em **Electron + Node.js** para listar relatórios `.pbix`, a
 - Seleção de pasta local com arquivos `.pbix`.
 - Persistência da última pasta selecionada em JSON local.
 - Listagem dinâmica de relatórios com botão **Abrir** para cada item.
+- Painel de **Prévia** na tela inicial com imagem local opcional (mesmo nome do `.pbix`).
 - Abertura de relatório em **nova instância isolada** do app.
 - Janela de visualização sem frame nativo (`frame: false`) com barra superior customizada.
 - Execução do Power BI Desktop por `child_process.spawn`.
@@ -66,6 +67,18 @@ npm run build
 Saída esperada em `dist/` com instalador NSIS.
 
 > Observação: compilar alvo Windows em ambiente não-Windows pode exigir toolchain adicional.
+
+
+### Prévia de relatório
+
+A prévia usa imagem local opcional com o **mesmo nome** do arquivo `.pbix` no mesmo diretório.
+
+Exemplo:
+
+- `Financeiro.pbix`
+- `Financeiro.png` (ou `.jpg`, `.jpeg`, `.webp`, `.bmp`)
+
+Se a imagem não existir, o app mostra aviso de “sem prévia”.
 
 ## Protocolo customizado
 

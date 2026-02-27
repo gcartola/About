@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+const PREVIEW_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.bmp'];
+
 function listReports(folderPath) {
   if (!folderPath || !fs.existsSync(folderPath)) {
     return [];
@@ -25,7 +27,26 @@ function findReportByName(folderPath, reportName) {
   return reports.find((report) => report.displayName.toLowerCase() === reportName.toLowerCase()) || null;
 }
 
+function getReportPreviewPath(reportPath) {
+  if (!reportPath || !fs.existsSync(reportPath)) {
+    return null;
+  }
+
+  const dir = path.dirname(reportPath);
+  const baseName = path.basename(reportPath, '.pbix');
+
+  for (const ext of PREVIEW_EXTENSIONS) {
+    const candidate = path.join(dir, `${baseName}${ext}`);
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
 module.exports = {
   listReports,
-  findReportByName
+  findReportByName,
+  getReportPreviewPath
 };

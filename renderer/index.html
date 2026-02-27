@@ -21,8 +21,17 @@
         </div>
       </section>
 
-      <section>
-        <ul id="reportsList" class="report-list"></ul>
+      <section class="layout-grid">
+        <div>
+          <ul id="reportsList" class="report-list"></ul>
+        </div>
+
+        <aside class="preview-panel">
+          <h2>Prévia</h2>
+          <p id="previewLabel" class="preview-label">Selecione um relatório para visualizar a prévia.</p>
+          <img id="previewImage" class="preview-image hidden" alt="Prévia do relatório" />
+          <p id="previewHint" class="empty">Sem imagem de prévia. Adicione um arquivo com o mesmo nome do .pbix (ex.: Relatorio.png).</p>
+        </aside>
       </section>
     </main>
 

@@ -3,7 +3,7 @@ const { spawn } = require('node:child_process');
 const { app, BrowserWindow, dialog, ipcMain, screen } = require('electron');
 const { createConfigService } = require('./services/configService');
 const { createLogService } = require('./services/logService');
-const { listReports, findReportByName } = require('./services/reportService');
+const { listReports, findReportByName, getReportPreviewPath } = require('./services/reportService');
 const { openPowerBI, closePowerBI, sendPresentationShortcut } = require('./services/powerBIService');
 
 let configService;
@@ -144,6 +144,10 @@ function registerIpcHandlers() {
     launchIsolatedViewer(reportPath);
     return { ok: true };
   });
+
+  ipcMain.handle('report:preview', (_event, reportPath) => ({
+    previewPath: getReportPreviewPath(reportPath)
+  }));
 
   ipcMain.on('viewer:close', (event) => {
     const win = BrowserWindow.fromWebContents(event.sender);
