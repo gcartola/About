@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BI Crédito Viewer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>BI Crédito Viewer</h1>
+
+      <section class="toolbar">
+        <label class="input-group">
+          <span>Pasta de relatórios</span>
+          <input id="folderPath" type="text" readonly placeholder="Nenhuma pasta selecionada" />
+        </label>
+        <div class="buttons">
+          <button id="selectFolderBtn">Selecionar Pasta</button>
+          <button id="refreshBtn" class="secondary">Atualizar</button>
+        </div>
+      </section>
+
+      <section class="layout-grid">
+        <div>
+          <ul id="reportsList" class="report-list"></ul>
+        </div>
+
+        <aside class="preview-panel">
+          <h2>Prévia</h2>
+          <p id="previewLabel" class="preview-label">Selecione um relatório para visualizar a prévia.</p>
+
+          <div id="previewFallback" class="preview-fallback">
+            Prévia indisponível para este relatório.
+          </div>
+          <img id="previewImage" class="preview-image hidden" alt="Prévia do relatório" />
+
+          <p id="previewHint" class="empty">Sem imagem de prévia automática.</p>
+          <button id="bindPreviewBtn" class="secondary">Vincular imagem de prévia</button>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
