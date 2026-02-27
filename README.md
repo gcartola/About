@@ -78,7 +78,7 @@ Exemplo:
 - `Financeiro.pbix`
 - `Financeiro.png` (ou `.jpg`, `.jpeg`, `.webp`, `.bmp`)
 
-Se a imagem não existir, o app mostra aviso de “sem prévia”.
+Se a imagem não existir, o app mostra aviso e permite vincular manualmente uma imagem de prévia pelo botão "Vincular imagem de prévia".
 
 ## Protocolo customizado
 

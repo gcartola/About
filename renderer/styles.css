@@ -158,3 +158,8 @@ button:hover {
 .hidden {
   display: none;
 }
+
+
+.preview-panel button {
+  margin-top: 10px;
+}

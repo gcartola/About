@@ -31,6 +31,17 @@ function buildPreviewDataUrl(previewPath) {
 }
 
 
+
+function resolvePreviewPath(reportPath) {
+  const config = configService.getConfig();
+  const mapped = config.previewMap?.[reportPath];
+  if (mapped && fs.existsSync(mapped)) {
+    return mapped;
+  }
+
+  return getReportPreviewPath(reportPath);
+}
+
 function parseCliArgs(argv) {
   const viewerArg = argv.find((arg) => arg.startsWith('--viewer='));
   const protocolArg = argv.find((arg) => arg.startsWith('bicreditoviewer://'));
@@ -168,10 +179,34 @@ function registerIpcHandlers() {
   });
 
   ipcMain.handle('report:preview', (_event, reportPath) => {
-    const previewPath = getReportPreviewPath(reportPath);
+    const previewPath = resolvePreviewPath(reportPath);
     return {
       previewPath,
       previewDataUrl: buildPreviewDataUrl(previewPath)
+    };
+  });
+
+
+  ipcMain.handle('report:preview:bind', async (_event, reportPath) => {
+    const result = await dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+        { name: 'Imagens', extensions: ['png', 'jpg', 'jpeg', 'webp', 'bmp'] }
+      ]
+    });
+
+    if (result.canceled || !result.filePaths[0]) {
+      return { ok: false };
+    }
+
+    const config = configService.getConfig();
+    const previewMap = { ...(config.previewMap || {}), [reportPath]: result.filePaths[0] };
+    configService.saveConfig({ previewMap });
+
+    return {
+      ok: true,
+      previewPath: result.filePaths[0],
+      previewDataUrl: buildPreviewDataUrl(result.filePaths[0])
     };
   });
 

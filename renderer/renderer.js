@@ -5,6 +5,9 @@ const reportsList = document.getElementById('reportsList');
 const previewImage = document.getElementById('previewImage');
 const previewLabel = document.getElementById('previewLabel');
 const previewHint = document.getElementById('previewHint');
+const bindPreviewBtn = document.getElementById('bindPreviewBtn');
+
+let selectedReport = null;
 
 function clearPreview(message = 'Selecione um relatório para visualizar a prévia.') {
   previewLabel.textContent = message;
@@ -16,24 +19,29 @@ function clearPreview(message = 'Selecione um relatório para visualizar a prév
 function showMissingPreviewHint() {
   previewImage.src = '';
   previewImage.classList.add('hidden');
-  previewHint.textContent = 'Sem imagem de prévia. Adicione um arquivo com o mesmo nome do .pbix (ex.: Relatorio.png).';
+  previewHint.textContent = 'Sem imagem de prévia automática. Clique em "Vincular imagem de prévia".';
   previewHint.classList.remove('hidden');
 }
 
+function showPreviewData(dataUrl) {
+  previewImage.onerror = () => {
+    previewHint.textContent = 'Não foi possível carregar a imagem de prévia (arquivo inválido ou inacessível).';
+    previewImage.classList.add('hidden');
+    previewHint.classList.remove('hidden');
+  };
+
+  previewImage.src = dataUrl;
+  previewImage.classList.remove('hidden');
+  previewHint.classList.add('hidden');
+}
+
 async function loadPreview(report) {
+  selectedReport = report;
   previewLabel.textContent = report.displayName;
   const result = await window.viewerAPI.getReportPreview(report.fullPath);
 
   if (result?.previewDataUrl) {
-    previewImage.onerror = () => {
-      previewHint.textContent = 'Não foi possível carregar a imagem de prévia (arquivo inválido ou inacessível).';
-      previewImage.classList.add('hidden');
-      previewHint.classList.remove('hidden');
-    };
-
-    previewImage.src = result.previewDataUrl;
-    previewImage.classList.remove('hidden');
-    previewHint.classList.add('hidden');
+    showPreviewData(result.previewDataUrl);
     return;
   }
 
@@ -48,6 +56,7 @@ function renderReports(reports) {
     empty.className = 'empty';
     empty.textContent = 'Nenhum arquivo .pbix encontrado na pasta selecionada.';
     reportsList.appendChild(empty);
+    selectedReport = null;
     clearPreview('Nenhum relatório disponível para prévia.');
     return;
   }
@@ -89,6 +98,17 @@ selectFolderBtn.addEventListener('click', async () => {
   if (updatedConfig?.reportsFolder) {
     folderPathInput.value = updatedConfig.reportsFolder;
     await refreshReports();
+  }
+});
+
+bindPreviewBtn.addEventListener('click', async () => {
+  if (!selectedReport) {
+    return;
+  }
+
+  const result = await window.viewerAPI.bindReportPreview(selectedReport.fullPath);
+  if (result?.ok && result.previewDataUrl) {
+    showPreviewData(result.previewDataUrl);
   }
 });
 

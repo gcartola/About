@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('viewerAPI', {
   listReports: () => ipcRenderer.invoke('reports:list'),
   openReport: (reportPath) => ipcRenderer.invoke('report:open', reportPath),
   getReportPreview: (reportPath) => ipcRenderer.invoke('report:preview', reportPath),
+  bindReportPreview: (reportPath) => ipcRenderer.invoke('report:preview:bind', reportPath),
   closeViewer: () => ipcRenderer.send('viewer:close'),
   getViewerReportName
 });
