@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BI Crédito Viewer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>BI Crédito Viewer</h1>
+
+      <section class="toolbar">
+        <label class="input-group">
+          <span>Pasta de relatórios</span>
+          <input id="folderPath" type="text" readonly placeholder="Nenhuma pasta selecionada" />
+        </label>
+        <div class="buttons">
+          <button id="selectFolderBtn">Selecionar Pasta</button>
+          <button id="refreshBtn" class="secondary">Atualizar</button>
+        </div>
+      </section>
+
+      <section>
+        <ul id="reportsList" class="report-list"></ul>
+      </section>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

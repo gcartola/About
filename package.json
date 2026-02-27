@@ -1,0 +1,47 @@
+{
+  "name": "bi-credito-viewer",
+  "version": "1.0.0",
+  "description": "Aplicativo desktop leve para abrir relatórios PBIX em instâncias isoladas do Power BI Desktop.",
+  "main": "main.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron .",
+    "build": "electron-builder --win nsis",
+    "build:dir": "electron-builder --win --dir"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.bicredito.viewer",
+    "productName": "BI Crédito Viewer",
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!README.md"
+    ],
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "protocols": [
+      {
+        "name": "BI Crédito Viewer Protocol",
+        "schemes": [
+          "bicreditoviewer"
+        ]
+      }
+    ]
+  }
+}

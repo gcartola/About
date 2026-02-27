@@ -1,0 +1,121 @@
+:root {
+  color-scheme: light;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #1f1f1f;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin: 0 0 20px;
+  font-size: 26px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+input {
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  background: #2e6df6;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+button.secondary {
+  background: #eceff6;
+  color: #1f1f1f;
+}
+
+button:hover {
+  filter: brightness(0.95);
+}
+
+.report-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.report-item {
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.report-item:hover {
+  background: #fafafa;
+}
+
+.empty {
+  color: #757575;
+  font-size: 14px;
+}
+
+.viewer-body {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+}
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ececec;
+  padding: 0 12px;
+  -webkit-app-region: drag;
+}
+
+.viewer-header .close-btn {
+  -webkit-app-region: no-drag;
+  background: #d9534f;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.viewer-content {
+  padding: 20px;
+  font-size: 14px;
+  color: #505050;
+}
