@@ -163,3 +163,17 @@ button:hover {
 .preview-panel button {
   margin-top: 10px;
 }
+
+
+.preview-fallback {
+  min-height: 120px;
+  border: 1px dashed #d4d4d4;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  background: #fafafa;
+  padding: 12px;
+  margin-bottom: 8px;
+}

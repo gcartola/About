@@ -6,14 +6,20 @@ const previewImage = document.getElementById('previewImage');
 const previewLabel = document.getElementById('previewLabel');
 const previewHint = document.getElementById('previewHint');
 const bindPreviewBtn = document.getElementById('bindPreviewBtn');
+const previewFallback = document.getElementById('previewFallback');
 
 let selectedReport = null;
+
+function showFallbackBox(show) {
+  previewFallback.classList.toggle('hidden', !show);
+}
 
 function clearPreview(message = 'Selecione um relatório para visualizar a prévia.') {
   previewLabel.textContent = message;
   previewImage.src = '';
   previewImage.classList.add('hidden');
   previewHint.classList.remove('hidden');
+  showFallbackBox(true);
 }
 
 function showMissingPreviewHint() {
@@ -21,6 +27,7 @@ function showMissingPreviewHint() {
   previewImage.classList.add('hidden');
   previewHint.textContent = 'Sem imagem de prévia automática. Clique em "Vincular imagem de prévia".';
   previewHint.classList.remove('hidden');
+  showFallbackBox(true);
 }
 
 function showPreviewData(dataUrl) {
@@ -28,11 +35,13 @@ function showPreviewData(dataUrl) {
     previewHint.textContent = 'Não foi possível carregar a imagem de prévia (arquivo inválido ou inacessível).';
     previewImage.classList.add('hidden');
     previewHint.classList.remove('hidden');
+    showFallbackBox(true);
   };
 
   previewImage.src = dataUrl;
   previewImage.classList.remove('hidden');
   previewHint.classList.add('hidden');
+  showFallbackBox(false);
 }
 
 async function loadPreview(report) {

@@ -25,9 +25,17 @@ function buildPreviewDataUrl(previewPath) {
     return null;
   }
 
-  const buffer = fs.readFileSync(previewPath);
-  const mime = getMimeType(previewPath);
-  return `data:${mime};base64,${buffer.toString('base64')}`;
+  try {
+    const buffer = fs.readFileSync(previewPath);
+    if (!buffer.length) {
+      return null;
+    }
+
+    const mime = getMimeType(previewPath);
+    return `data:${mime};base64,${buffer.toString('base64')}`;
+  } catch (_error) {
+    return null;
+  }
 }
 
 
