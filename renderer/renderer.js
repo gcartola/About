@@ -24,14 +24,14 @@ async function loadPreview(report) {
   previewLabel.textContent = report.displayName;
   const result = await window.viewerAPI.getReportPreview(report.fullPath);
 
-  if (result?.previewUrl) {
+  if (result?.previewDataUrl) {
     previewImage.onerror = () => {
       previewHint.textContent = 'Não foi possível carregar a imagem de prévia (arquivo inválido ou inacessível).';
       previewImage.classList.add('hidden');
       previewHint.classList.remove('hidden');
     };
 
-    previewImage.src = result.previewUrl;
+    previewImage.src = result.previewDataUrl;
     previewImage.classList.remove('hidden');
     previewHint.classList.add('hidden');
     return;

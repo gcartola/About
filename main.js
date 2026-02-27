@@ -1,6 +1,6 @@
+const fs = require('node:fs');
 const path = require('node:path');
 const { spawn } = require('node:child_process');
-const { pathToFileURL } = require('node:url');
 const { app, BrowserWindow, dialog, ipcMain, screen } = require('electron');
 const { createConfigService } = require('./services/configService');
 const { createLogService } = require('./services/logService');
@@ -9,6 +9,27 @@ const { openPowerBI, closePowerBI, sendPresentationShortcut } = require('./servi
 
 let configService;
 let logService;
+
+
+function getMimeType(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.png') return 'image/png';
+  if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg';
+  if (ext === '.webp') return 'image/webp';
+  if (ext === '.bmp') return 'image/bmp';
+  return 'application/octet-stream';
+}
+
+function buildPreviewDataUrl(previewPath) {
+  if (!previewPath || !fs.existsSync(previewPath)) {
+    return null;
+  }
+
+  const buffer = fs.readFileSync(previewPath);
+  const mime = getMimeType(previewPath);
+  return `data:${mime};base64,${buffer.toString('base64')}`;
+}
+
 
 function parseCliArgs(argv) {
   const viewerArg = argv.find((arg) => arg.startsWith('--viewer='));
@@ -150,7 +171,7 @@ function registerIpcHandlers() {
     const previewPath = getReportPreviewPath(reportPath);
     return {
       previewPath,
-      previewUrl: previewPath ? pathToFileURL(previewPath).href : null
+      previewDataUrl: buildPreviewDataUrl(previewPath)
     };
   });
 
